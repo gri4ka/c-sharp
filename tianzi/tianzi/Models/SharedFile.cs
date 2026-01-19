@@ -9,7 +9,7 @@ public class SharedFile
     [Required, MaxLength(16)]
     public string Code { get; set; } = "";
 
-    [Required, MaxLength(64)]
+    [Required, MaxLength(64)]  
     public string DeleteToken { get; set; } = "";
 
     [Required, MaxLength(260)]

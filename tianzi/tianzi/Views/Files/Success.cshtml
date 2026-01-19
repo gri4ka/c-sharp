@@ -19,8 +19,21 @@
 </p>
 
 <p style="margin-top:18px;">
-    <b>Delete link (keep private):</b><br />
-    <a href="/del/@code/@token">/del/@code/@token</a>
+    <b>Delete (keep private):</b><br />
+
+    <form asp-action="Delete" method="post" style="display:inline;">
+        <input type="hidden" name="code" value="@code" />
+        <input type="hidden" name="delcode" value="@token" />
+        <button type="submit" onclick="return confirm('Delete this uploaded file?');">
+            Delete now
+        </button>
+    </form>
+
+    <div style="margin-top:10px;">
+        <small>Tip: Save your delete token somewhere safe. It won’t be shown again after you leave this page.</small>
+        <br />
+        <small><b>Delete token:</b> <code>@token</code></small>
+    </div>
 </p>
 
 <p style="margin-top:18px;">

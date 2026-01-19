@@ -7,7 +7,6 @@
 <h2>Admin Dashboard</h2>
 
 <form action="/admin/logout" method="post" style="margin-bottom:16px;">
-    @Html.AntiForgeryToken()
     <button type="submit">Logout (@User.Identity?.Name)</button>
 </form>
 
@@ -44,7 +43,6 @@ else
                 </td>
                 <td>
                     <form action="/admin/delete/@f.Id" method="post" style="display:inline;">
-                        @Html.AntiForgeryToken()
                         <button type="submit" onclick="return confirm('Delete this file?');">Delete</button>
                     </form>
                 </td>

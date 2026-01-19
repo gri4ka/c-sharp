@@ -14,6 +14,13 @@
     <tr><td><b>Uploaded</b></td><td>@Model.UploadedAtUtc.ToString("u")</td></tr>
     <tr><td><b>Downloads</b></td><td>@Model.DownloadCount</td></tr>
 </table>
+<br/>
+<form asp-action="Delete" method="post">
+    <input type="hidden" name="code" value="@Model.Code" />
+    <input name="delcode" placeholder="delete code you saved!" />
+    <button type="submit" style="margin-left:8px;">Delete</button>
+</form>
+<br/>
 
 <p style="margin-top:18px;">
     <a href="/f/@Model.Code">Download</a>

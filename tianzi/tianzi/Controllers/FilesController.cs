@@ -70,7 +70,7 @@ public class FilesController : Controller
             await file.CopyToAsync(ms);
 
             var code = await GenerateUniqueCodeAsync(8);
-            var deleteToken = await GenerateUniqueDeleteTokenAsync(12);
+            var deleteToken = await GenerateUniqueDeleteTokenAsync(8);
             var entity = new SharedFile
             {
                 Code = code,
@@ -93,7 +93,7 @@ public class FilesController : Controller
         }
         catch (Exception ex)
         {
-            TempData["Error"] = "An internal error occurred while uploading. Check server logs for details.";
+            TempData["Error"] = "An internal error occurred while uploading. Check server logs for details." + ex;
             return RedirectToAction(nameof(Index));
         }
     }
@@ -134,14 +134,16 @@ public class FilesController : Controller
 
         return File(f.Data, f.ContentType, f.OriginalFileName);
     }
-
-    [HttpGet("/del/{code}/{token}")]
-    public async Task<IActionResult> Delete(string code, string token)
+    [HttpPost]
+    public async Task<IActionResult> Delete(string code, string delcode)
     {
         code = (code ?? "").Trim().ToUpperInvariant();
-        token = (token ?? "").Trim();
+        delcode = (delcode ?? "").Trim().ToUpperInvariant();
 
-        var f = await _db.SharedFiles.SingleOrDefaultAsync(x => x.Code == code && x.DeleteToken == token);
+        if (string.IsNullOrWhiteSpace(code) || string.IsNullOrWhiteSpace(delcode))
+            return View("NotFound");
+
+        var f = await _db.SharedFiles.SingleOrDefaultAsync(x => x.Code == code && x.DeleteToken == delcode);
         if (f == null) return View("NotFound");
 
         _db.SharedFiles.Remove(f);
