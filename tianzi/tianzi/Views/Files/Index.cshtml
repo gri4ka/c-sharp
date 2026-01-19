@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "File Drop";
+    var err = TempData["Error"] as string;
+}
+
+<h2>tianzi - File Drop + Share Code</h2>
+
+@if (!string.IsNullOrWhiteSpace(err))
+{
+    <p style="color:darkred;">@err</p>
+}
+
+<h3>Upload</h3>
+<form asp-action="Upload" method="post" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+    <input type="file" name="file" />
+    <button type="submit" style="margin-left:8px;">Upload</button>
+</form>
+
+<hr />
+
+<h3>Have a code?</h3>
+<p><a asp-action="Lookup">Go to download page</a></p>

@@ -1,0 +1,24 @@
+﻿@model tianzi.Models.SharedFile
+
+@{
+    ViewData["Title"] = "File Details";
+}
+
+<h2>File Details</h2>
+
+<table>
+    <tr><td><b>Code</b></td><td><code>@Model.Code</code></td></tr>
+    <tr><td><b>Name</b></td><td>@Model.OriginalFileName</td></tr>
+    <tr><td><b>Type</b></td><td>@Model.ContentType</td></tr>
+    <tr><td><b>Size</b></td><td>@Model.Size bytes</td></tr>
+    <tr><td><b>Uploaded</b></td><td>@Model.UploadedAtUtc.ToString("u")</td></tr>
+    <tr><td><b>Downloads</b></td><td>@Model.DownloadCount</td></tr>
+</table>
+
+<p style="margin-top:18px;">
+    <a href="/f/@Model.Code">Download</a>
+</p>
+
+<p style="margin-top:18px;">
+    <a asp-action="Lookup">Lookup another code</a>
+</p>

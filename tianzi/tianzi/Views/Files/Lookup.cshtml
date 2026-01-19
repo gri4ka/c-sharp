@@ -1,0 +1,15 @@
+﻿@{
+    ViewData["Title"] = "Lookup";
+}
+
+<h2>Enter a share code</h2>
+
+<form method="post">
+    @Html.AntiForgeryToken()
+    <input name="code" placeholder="e.g. K7Q2M9TX" />
+    <button type="submit" style="margin-left:8px;">Go</button>
+</form>
+
+<p style="margin-top:18px;">
+    <a asp-action="Index">Back</a>
+</p>

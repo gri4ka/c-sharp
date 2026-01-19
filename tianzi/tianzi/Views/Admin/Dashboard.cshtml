@@ -1,0 +1,55 @@
+﻿@model List<tianzi.Models.SharedFile>
+
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<h2>Admin Dashboard</h2>
+
+<form action="/admin/logout" method="post" style="margin-bottom:16px;">
+    @Html.AntiForgeryToken()
+    <button type="submit">Logout (@User.Identity?.Name)</button>
+</form>
+
+@if (Model.Count == 0)
+{
+    <p>No uploads yet.</p>
+}
+else
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Uploaded (UTC)</th>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Size</th>
+                <th>Downloads</th>
+                <th>Links</th>
+                <th>Admin</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var f in Model)
+        {
+            <tr>
+                <td>@f.UploadedAtUtc.ToString("u")</td>
+                <td><code>@f.Code</code></td>
+                <td>@f.OriginalFileName</td>
+                <td>@f.Size</td>
+                <td>@f.DownloadCount</td>
+                <td>
+                    <a href="/d/@f.Code">details</a> |
+                    <a href="/f/@f.Code">download</a>
+                </td>
+                <td>
+                    <form action="/admin/delete/@f.Id" method="post" style="display:inline;">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" onclick="return confirm('Delete this file?');">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

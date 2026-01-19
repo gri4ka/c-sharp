@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Uploaded";
+    var code = TempData["Code"] as string;
+    var token = TempData["DeleteToken"] as string;
+}
+
+<h2>Uploaded!</h2>
+
+<p><b>Share code:</b> <code>@code</code></p>
+
+<p>
+    <b>Download link:</b>
+    <a href="/f/@code">/f/@code</a>
+</p>
+
+<p>
+    <b>Details link:</b>
+    <a href="/d/@code">/d/@code</a>
+</p>
+
+<p style="margin-top:18px;">
+    <b>Delete link (keep private):</b><br />
+    <a href="/del/@code/@token">/del/@code/@token</a>
+</p>
+
+<p style="margin-top:18px;">
+    <a asp-action="Index">Upload another</a>
+</p>
