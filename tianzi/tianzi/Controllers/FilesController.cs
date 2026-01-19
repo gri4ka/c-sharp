@@ -47,8 +47,7 @@ public class FilesController : Controller
     {
         try
         {
-            Console.WriteLine("Upload attempt: {FileName} ({Length} bytes)", file?.FileName, file?.Length ?? 0);
-
+            
             if (file == null || file.Length == 0)
             {
                 TempData["Error"] = "Pick a file first.";
@@ -72,7 +71,6 @@ public class FilesController : Controller
 
             var code = await GenerateUniqueCodeAsync(8);
             var deleteToken = await GenerateUniqueDeleteTokenAsync(12);
-            Console.WriteLine("Generated code: {Code}, delete token length: {Len}", code, deleteToken?.Length ?? 0);
             var entity = new SharedFile
             {
                 Code = code,
