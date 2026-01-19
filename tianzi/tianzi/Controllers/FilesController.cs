@@ -47,7 +47,7 @@ public class FilesController : Controller
     {
         try
         {
-            _logger.LogInformation("Upload attempt: {FileName} ({Length} bytes)", file?.FileName, file?.Length ?? 0);
+            Console.WriteLine("Upload attempt: {FileName} ({Length} bytes)", file?.FileName, file?.Length ?? 0);
 
             if (file == null || file.Length == 0)
             {
@@ -72,7 +72,7 @@ public class FilesController : Controller
 
             var code = await GenerateUniqueCodeAsync(8);
             var deleteToken = await GenerateUniqueDeleteTokenAsync(12);
-            _logger.LogInformation("Generated code: {Code}, delete token length: {Len}", code, deleteToken?.Length ?? 0);
+            Console.WriteLine("Generated code: {Code}, delete token length: {Len}", code, deleteToken?.Length ?? 0);
             var entity = new SharedFile
             {
                 Code = code,
@@ -95,12 +95,6 @@ public class FilesController : Controller
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Unhandled exception in Upload");
-
-            // In development return the exception details in the response so you can see the stack trace.
-            if (_env.IsDevelopment())
-                return Content(ex.ToString());
-
             TempData["Error"] = "An internal error occurred while uploading. Check server logs for details.";
             return RedirectToAction(nameof(Index));
         }

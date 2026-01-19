@@ -9,18 +9,19 @@ using tianzi.Data;
 using tianzi.Models;
 
 namespace tianzi.Controllers;
-
+[Authorize(Policy = "AdminOnly")]
 public class AdminController : Controller
 {
     private readonly AppDbContext _db;
 
     public AdminController(AppDbContext db) => _db = db;
 
+    [AllowAnonymous]
     [HttpGet("/admin/login")]
     public IActionResult Login() => View();
 
+    [AllowAnonymous]
     [HttpPost("/admin/login")]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login(string username, string password)
     {
         username = (username ?? "").Trim();
@@ -55,7 +56,6 @@ public class AdminController : Controller
         return RedirectToAction(nameof(Dashboard));
     }
 
-    [Authorize(Policy = "AdminOnly")]
     [HttpGet("/admin")]
     public async Task<IActionResult> Dashboard()
     {
@@ -67,9 +67,7 @@ public class AdminController : Controller
         return View(files);
     }
 
-    [Authorize(Policy = "AdminOnly")]
     [HttpPost("/admin/delete/{id:int}")]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Delete(int id)
     {
         var f = await _db.SharedFiles.FindAsync(id);
@@ -81,9 +79,7 @@ public class AdminController : Controller
         return RedirectToAction(nameof(Dashboard));
     }
 
-    [Authorize(Policy = "AdminOnly")]
     [HttpPost("/admin/logout")]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Logout()
     {
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
