@@ -14,7 +14,7 @@ public class FilesController : Controller
     private readonly ILogger<FilesController> _logger;
     private readonly IWebHostEnvironment _env;
 
-    private const long MaxUploadBytes = 10 * 1024 * 1024; // 10 MB demo limit
+    private const long MaxUploadBytes = 10 * 1024 * 1024; // 10 MB limit
 
     public FilesController(AppDbContext db, ILogger<FilesController> logger, IWebHostEnvironment env)
     {
@@ -57,7 +57,6 @@ public class FilesController : Controller
                 return RedirectToAction(nameof(Index));
             }
 
-            // Never trust file paths from the browser
             var safeName = Path.GetFileName(file.FileName);
             var contentType = string.IsNullOrWhiteSpace(file.ContentType)
                 ? "application/octet-stream"
@@ -154,7 +153,7 @@ public class FilesController : Controller
 
     private async Task<string> GenerateUniqueCodeAsync(int length)
     {
-        // Base32-ish alphabet without confusing chars
+        // custom alphabet
         const string alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
         while (true)

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 using System.Security.Claims;
 using tianzi.Data;
 using tianzi.Models;
@@ -71,7 +72,7 @@ public class AdminController : Controller
     public async Task<IActionResult> Delete(int id)
     {
         var f = await _db.SharedFiles.FindAsync(id);
-        if (f == null) return Missing);
+        if (f == null) return View("Missing");
 
         _db.SharedFiles.Remove(f);
         await _db.SaveChangesAsync();
