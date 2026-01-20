@@ -30,7 +30,6 @@ public class FilesController : Controller
     public IActionResult Lookup() => View();
 
     [HttpPost]
-    [ValidateAntiForgeryToken]
     public IActionResult Lookup(string code)
     {
         code = (code ?? "").Trim().ToUpperInvariant();
@@ -41,8 +40,6 @@ public class FilesController : Controller
     }
 
     [HttpPost]
-    [ValidateAntiForgeryToken]
-    [RequestSizeLimit(MaxUploadBytes)]
     public async Task<IActionResult> Upload(IFormFile file)
     {
         try
@@ -69,8 +66,8 @@ public class FilesController : Controller
             await using var ms = new MemoryStream();
             await file.CopyToAsync(ms);
 
-            var code = await GenerateUniqueCodeAsync(8);
-            var deleteToken = await GenerateUniqueDeleteTokenAsync(8);
+            var code = await GenerateUniqueCodeAsync(8);//len in chars
+            var deleteToken = await GenerateUniqueDeleteTokenAsync(8);//len in bytes
             var entity = new SharedFile
             {
                 Code = code,
@@ -116,7 +113,7 @@ public class FilesController : Controller
             .AsNoTracking()
             .SingleOrDefaultAsync(x => x.Code == code);
 
-        if (f == null) return View("NotFound");
+        if (f == null) return View("Missing");
 
         return View(f);
     }
@@ -153,7 +150,7 @@ public class FilesController : Controller
     }
 
     [HttpGet]
-    public IActionResult NotFound() => View();
+    public IActionResult Missing() => View();
 
     private async Task<string> GenerateUniqueCodeAsync(int length)
     {
