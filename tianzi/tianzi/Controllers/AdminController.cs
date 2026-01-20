@@ -71,7 +71,7 @@ public class AdminController : Controller
     public async Task<IActionResult> Delete(int id)
     {
         var f = await _db.SharedFiles.FindAsync(id);
-        if (f == null) return NotFound();
+        if (f == null) return Missing);
 
         _db.SharedFiles.Remove(f);
         await _db.SaveChangesAsync();

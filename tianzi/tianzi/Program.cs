@@ -38,7 +38,7 @@ var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Files/NotFound");
+    app.UseExceptionHandler("/Files/Missing");
     app.UseHsts();
 }
 
@@ -54,8 +54,6 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-    // Applies migrations automatically at startup.
-    // If you want manual-only migrations, remove this and run `dotnet ef database update`.
     await db.Database.MigrateAsync();
 
     var adminUsername = app.Configuration["Admin:Username"] ?? "admin";

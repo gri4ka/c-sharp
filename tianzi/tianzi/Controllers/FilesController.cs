@@ -124,7 +124,7 @@ public class FilesController : Controller
         code = (code ?? "").Trim().ToUpperInvariant();
 
         var f = await _db.SharedFiles.SingleOrDefaultAsync(x => x.Code == code);
-        if (f == null) return View("NotFound");
+        if (f == null) return View("Missing");
 
         f.DownloadCount += 1;
         await _db.SaveChangesAsync();
@@ -138,10 +138,10 @@ public class FilesController : Controller
         delcode = (delcode ?? "").Trim().ToUpperInvariant();
 
         if (string.IsNullOrWhiteSpace(code) || string.IsNullOrWhiteSpace(delcode))
-            return View("NotFound");
+            return View("Missing");
 
         var f = await _db.SharedFiles.SingleOrDefaultAsync(x => x.Code == code && x.DeleteToken == delcode);
-        if (f == null) return View("NotFound");
+        if (f == null) return View("Missing");
 
         _db.SharedFiles.Remove(f);
         await _db.SaveChangesAsync();
